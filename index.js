@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import authRoute from "./routes/auth.js";
 
 const app = express();
 
@@ -24,6 +25,10 @@ mongoose.connection.on("disconnected", () => {
 mongoose.connection.on("connected", () => {
   console.log("mongoDB connected");
 });
+
+//middlewares
+
+app.use("/auth", authRoute);
 
 app.listen(port, () => {
   connect(), console.log(`Server is listening on the port ${port}`);
