@@ -1,4 +1,4 @@
-const ErrorHandlerMiddleware = (err, req, res) => {
+const ErrorHandlerMiddleware = (err, req, res, next) => {
   let customError = {
     statusCode: err.status || 500,
     message: err.message || "Something went wrong, try again later",
