@@ -11,6 +11,7 @@ export const createHotel = async (req, res, next) => {
 };
 
 export const updateHotel = async (req, res, next) => {
+  const { id: hotelID } = req.params;
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
@@ -19,6 +20,8 @@ export const updateHotel = async (req, res, next) => {
       },
       { new: true }
     );
+    if (!updatedHotel)
+      throw new Error(`The hotel with id ${hotelID} does not exist`);
     res.status(200).json(updatedHotel);
   } catch (error) {
     next(error);
@@ -26,8 +29,11 @@ export const updateHotel = async (req, res, next) => {
 };
 
 export const deleteHotel = async (req, res, next) => {
+  const { id: hotelID } = req.params;
+
   try {
-    await Hotel.findByIdAndDelete(req.params.id);
+    const hotel = await Hotel.findByIdAndDelete(req.params.id);
+    if (!hotel) throw new Error(`The hotel with id ${hotelID} does not exist`);
     res.status(200).json("Hotel has been deleted");
   } catch (error) {
     next(error);
@@ -35,11 +41,12 @@ export const deleteHotel = async (req, res, next) => {
 };
 
 export const getHotel = async (req, res, next) => {
+  const { id: hotelID } = req.params;
   try {
-    const hotel = await Hotel.findById(req.params.id);
+    const hotel = await Hotel.findById(hotelID);
+    if (!hotel) throw new Error(`The hotel with id ${hotelID} does not exist`);
     res.status(200).json(hotel);
   } catch (error) {
-    console.log("bbbb");
     next(error);
   }
 };
