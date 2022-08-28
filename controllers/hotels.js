@@ -39,6 +39,7 @@ export const getHotel = async (req, res, next) => {
     const hotel = await Hotel.findById(req.params.id);
     res.status(200).json(hotel);
   } catch (error) {
+    console.log("bbbb");
     next(error);
   }
 };
