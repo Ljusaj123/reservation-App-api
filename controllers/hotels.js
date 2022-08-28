@@ -1,10 +1,11 @@
 import Hotel from "../models/Hotel.js";
+import { StatusCodes } from "http-status-codes";
 
 export const createHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
   try {
     const savedHotel = await newHotel.save();
-    res.status(200).json(savedHotel);
+    res.status(StatusCodes.OK).json(savedHotel);
   } catch (error) {
     next(error);
   }
@@ -22,10 +23,11 @@ export const updateHotel = async (req, res, next) => {
     );
     if (!updatedHotel) {
       const error = new Error();
-      error.status = 400;
+      error.status = StatusCodes.BAD_REQUEST;
       error.message = `The hotel with id ${hotelID} does not exist`;
       throw error;
     }
+    res.status(StatusCodes.OK).json(updatedHotel);
   } catch (error) {
     next(error);
   }
@@ -38,11 +40,11 @@ export const deleteHotel = async (req, res, next) => {
     const hotel = await Hotel.findByIdAndDelete(req.params.id);
     if (!hotel) {
       const error = new Error();
-      error.status = 400;
+      error.status = StatusCodes.BAD_REQUEST;
       error.message = `The hotel with id ${hotelID} does not exist`;
       throw error;
     }
-    res.status(200).json("Hotel has been deleted");
+    res.status(StatusCodes.OK).json("Hotel has been deleted");
   } catch (error) {
     next(error);
   }
@@ -54,11 +56,11 @@ export const getHotel = async (req, res, next) => {
     const hotel = await Hotel.findById(hotelID);
     if (!hotel) {
       const error = new Error();
-      error.status = 400;
+      error.status = StatusCodes.BAD_REQUEST;
       error.message = `The hotel with id ${hotelID} does not exist`;
       throw error;
     }
-    res.status(200).json(hotel);
+    res.status(StatusCodes.OK).json(hotel);
   } catch (error) {
     next(error);
   }
@@ -67,7 +69,7 @@ export const getHotel = async (req, res, next) => {
 export const getAllHotels = async (req, res, next) => {
   try {
     const getHotels = await Hotel.find({});
-    res.status(200).json(getHotels);
+    res.status(StatusCodes.OK).json(getHotels);
   } catch (error) {
     next(error);
   }

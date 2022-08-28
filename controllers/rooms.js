@@ -1,10 +1,11 @@
 import Room from "../models/Room.js";
+import { StatusCodes } from "http-status-codes";
 
 export const createRoom = async (req, res, next) => {
   const newRoom = new Room(req.body);
   try {
     const savedRoom = await newRoom.save();
-    res.status(200).json(savedRoom);
+    res.status(StatusCodes.OK).json(savedRoom);
   } catch (error) {
     next(error);
   }
@@ -22,11 +23,11 @@ export const updateRoom = async (req, res, next) => {
     );
     if (!updatedRoom) {
       const error = new Error();
-      error.status = 400;
+      error.status = StatusCodes.BAD_REQUEST;
       error.message = `The room with id ${roomID} does not exist`;
       throw error;
     }
-    res.status(200).json(updatedRoom);
+    res.status(StatusCodes.OK).json(updatedRoom);
   } catch (error) {
     next(error);
   }
@@ -38,11 +39,11 @@ export const deleteRoom = async (req, res, next) => {
     const room = await Room.findByIdAndDelete(roomID);
     if (!room) {
       const error = new Error();
-      error.status = 400;
+      error.status = StatusCodes.BAD_REQUEST;
       error.message = `The room with id ${roomID} does not exist`;
       throw error;
     }
-    res.status(200).json("Room has been deleted");
+    res.status(StatusCodes.OK).json("Room has been deleted");
   } catch (error) {
     next(error);
   }
@@ -54,12 +55,12 @@ export const getRoom = async (req, res, next) => {
     const room = await Room.findById(req.params.id);
     if (!room) {
       const error = new Error();
-      error.status = 400;
+      error.status = StatusCodes.BAD_REQUEST;
       error.message = `The room with id ${roomID} does not exist`;
       throw error;
     }
 
-    res.status(200).json(room);
+    res.status(StatusCodes.OK).json(room);
   } catch (error) {
     next(error);
   }
@@ -68,7 +69,7 @@ export const getRoom = async (req, res, next) => {
 export const getAllRooms = async (req, res, next) => {
   try {
     const getRooms = await Room.find({});
-    res.status(200).json(getRooms);
+    res.status(StatusCodes.OK).json(getRooms);
   } catch (error) {
     next(error);
   }
