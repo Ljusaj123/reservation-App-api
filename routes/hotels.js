@@ -10,6 +10,6 @@ import {
 const router = express.Router();
 
 router.route("/").post(createHotel).get(getAllHotels);
-router.route("/:id").put(updateHotel).delete(deleteHotel).get(getHotel);
+router.route("/:id").patch(updateHotel).delete(deleteHotel).get(getHotel);
 
 export default router;
