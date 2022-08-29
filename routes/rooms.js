@@ -6,10 +6,15 @@ import {
   getRoom,
   updateRoom,
 } from "../controllers/rooms.js";
+import { VerifyUser, VerifyAdmin } from "../middlewares/Verify.js";
 
 const router = express.Router();
 
-router.route("/").post(createRoom).get(getAllRooms);
-router.route("/:id").put(updateRoom).delete(deleteRoom).get(getRoom);
+router.route("/").post(VerifyAdmin, createRoom).get(VerifyAdmin, getAllRooms);
+router
+  .route("/:id")
+  .put(VerifyUser, updateRoom)
+  .delete(VerifyUser, deleteRoom)
+  .get(VerifyUser, getRoom);
 
 export default router;

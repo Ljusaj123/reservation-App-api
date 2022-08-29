@@ -5,25 +5,15 @@ import {
   getUser,
   updateUser,
 } from "../controllers/users.js";
-import {
-  VerifyAdmin,
-  VerifyToken,
-  VerifyUser,
-} from "../middlewares/VerifyToken.js";
+import { VerifyAdmin, VerifyToken, VerifyUser } from "../middlewares/Verify.js";
 
 const router = express.Router();
 
-router.get("/checkauthentication", VerifyToken, (req, res, next) => {
-  res.send("Hello user, you are logged in");
-});
-router.get("/checkuser/:id", VerifyUser, (req, res, next) => {
-  res.send("Hello user, you are logged in and can delete your account");
-});
-router.get("/checkadmin/:id", VerifyAdmin, (req, res, next) => {
-  res.send("Hello admin, you are logged in and can delete all accounts");
-});
-
-router.route("/").get(getAllUsers);
-router.route("/:id").patch(updateUser).delete(deleteUser).get(getUser);
+router.route("/").get(VerifyAdmin, getAllUsers);
+router
+  .route("/:id")
+  .patch(VerifyUser, updateUser)
+  .delete(VerifyUser, deleteUser)
+  .get(VerifyUser, getUser);
 
 export default router;
