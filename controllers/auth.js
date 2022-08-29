@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -35,8 +36,13 @@ export const login = async (req, res, next) => {
       error.message = `The username or password is not valid`;
       throw error;
     }
+    const { _id, isAdmin, ...other } = user._doc;
 
-    res.status(StatusCodes.OK).json(`Hello user ${username}`);
+    const token = jwt.sign({ _id, isAdmin }, "secret");
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(StatusCodes.OK)
+      .json({ ...other });
   } catch (err) {
     next(err);
   }
