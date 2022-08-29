@@ -10,11 +10,9 @@ import { VerifyUser, VerifyAdmin } from "../middlewares/Verify.js";
 
 const router = express.Router();
 
-router.route("/").post(VerifyAdmin, createRoom).get(VerifyAdmin, getAllRooms);
-router
-  .route("/:id")
-  .put(VerifyUser, updateRoom)
-  .delete(VerifyUser, deleteRoom)
-  .get(VerifyUser, getRoom);
+router.route("/:hotelid").post(VerifyAdmin, createRoom);
+router.route("/").get(VerifyAdmin, getAllRooms);
+router.route("/:id/:hotelid").delete(VerifyUser, deleteRoom);
+router.route("/:id").put(VerifyUser, updateRoom).get(VerifyUser, getRoom);
 
 export default router;
