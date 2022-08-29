@@ -1,6 +1,5 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
@@ -8,13 +7,14 @@ import roomsRoute from "./routes/rooms.js";
 import connectDB from "./database/connect.js";
 import NotFound from "./middlewares/NotFound.js";
 import ErrorHandlerMiddleware from "./middlewares/ErrorHandler.js";
-
+import cookieParser from "cookie-parser";
 const app = express();
 
 dotenv.config();
 
 //middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/users", usersRoute);
