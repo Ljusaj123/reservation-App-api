@@ -17,13 +17,26 @@ export const VerifyToken = (req, res, next) => {
       throw error;
     }
     req.user = user;
+    console.log(req.user);
     next();
   });
 };
 
 export const VerifyUser = (req, res, next) => {
   VerifyToken(req, res, () => {
-    if (req.user.id === req.params.id || req.user.isAdmin) {
+    if (req.user._id === req.params.id || req.user.isAdmin) {
+      next();
+    } else {
+      const error = new Error();
+      error.status = StatusCodes.FORBIDDEN;
+      error.message = "Token is not authorized";
+      throw error;
+    }
+  });
+};
+export const VerifyAdmin = (req, res, next) => {
+  VerifyToken(req, res, () => {
+    if (req.user._id === req.user.isAdmin) {
       next();
     } else {
       const error = new Error();
