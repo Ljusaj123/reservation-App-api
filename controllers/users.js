@@ -27,7 +27,7 @@ export const deleteUser = async (req, res, next) => {
   const { id: userID } = req.params;
 
   try {
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete(userID);
     if (!user) {
       const error = new Error();
       error.status = StatusCodes.BAD_REQUEST;
