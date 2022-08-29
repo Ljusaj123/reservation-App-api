@@ -15,7 +15,7 @@ export const updateHotel = async (req, res, next) => {
   const { id: hotelID } = req.params;
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
-      req.params.id,
+      hotelID,
       {
         $set: req.body,
       },
@@ -37,7 +37,7 @@ export const deleteHotel = async (req, res, next) => {
   const { id: hotelID } = req.params;
 
   try {
-    const hotel = await Hotel.findByIdAndDelete(req.params.id);
+    const hotel = await Hotel.findByIdAndDelete(hotelID);
     if (!hotel) {
       const error = new Error();
       error.status = StatusCodes.BAD_REQUEST;

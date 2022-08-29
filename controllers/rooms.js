@@ -52,7 +52,7 @@ export const deleteRoom = async (req, res, next) => {
 export const getRoom = async (req, res, next) => {
   const { id: roomID } = req.params;
   try {
-    const room = await Room.findById(req.params.id);
+    const room = await Room.findById(roomID);
     if (!room) {
       const error = new Error();
       error.status = StatusCodes.BAD_REQUEST;
