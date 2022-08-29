@@ -17,13 +17,12 @@ export const VerifyToken = (req, res, next) => {
       throw error;
     }
     req.user = user;
-    console.log(req.user);
     next();
   });
 };
 
 export const VerifyUser = (req, res, next) => {
-  VerifyToken(req, res, () => {
+  VerifyToken(req, res, next, () => {
     if (req.user._id === req.params.id || req.user.isAdmin) {
       next();
     } else {
@@ -35,7 +34,7 @@ export const VerifyUser = (req, res, next) => {
   });
 };
 export const VerifyAdmin = (req, res, next) => {
-  VerifyToken(req, res, () => {
+  VerifyToken(req, res, next, () => {
     if (req.user._id === req.user.isAdmin) {
       next();
     } else {
