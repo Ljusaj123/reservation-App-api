@@ -1,5 +1,6 @@
 import Hotel from "../models/Hotel.js";
 import { StatusCodes } from "http-status-codes";
+import { request } from "express";
 
 export const createHotel = async (req, res, next) => {
   const newHotel = new Hotel(req.body);
@@ -67,8 +68,12 @@ export const getHotel = async (req, res, next) => {
 };
 
 export const getAllHotels = async (req, res, next) => {
+  const { min, max, ...other } = req.query;
   try {
-    const getHotels = await Hotel.find({});
+    const getHotels = await Hotel.find({
+      ...other,
+      cheapestPrice: { $gt: min || 1, $lt: max || 999 },
+    }).limit(req.query.limit);
     res.status(StatusCodes.OK).json(getHotels);
   } catch (error) {
     next(error);
