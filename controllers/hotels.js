@@ -106,7 +106,7 @@ export const countByCity = async (req, res, next) => {
   }
 };
 export const countByType = async (req, res, next) => {
-  const types = req.query.types.split(",");
+  const types = ["hotel", "hostel", "resort", "villa", "apartment"];
   try {
     const count = await Promise.all(
       types.map((prop) => {
