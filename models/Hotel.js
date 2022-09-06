@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
 
 const HotelSchema = new mongoose.Schema({
   name: {
@@ -7,6 +6,10 @@ const HotelSchema = new mongoose.Schema({
     required: true,
   },
   type: {
+    type: String,
+    required: true,
+  },
+  title: {
     type: String,
     required: true,
   },
@@ -44,6 +47,14 @@ const HotelSchema = new mongoose.Schema({
   featured: {
     type: Boolean,
     default: false,
+  },
+  freeCancelation: {
+    type: Boolean,
+    default: true,
+  },
+  freeAirportTaxi: {
+    type: Boolean,
+    default: true,
   },
 });
 
